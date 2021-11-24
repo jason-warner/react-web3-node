@@ -10,12 +10,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors());
 
-// app.use('/', cors(), api);
+app.use('/', cors(), api);
 
-app.post('/post_name', cors(), async (req, res) => {
-    let name = req.body
-    console.log(name);
-});
+app.get('/', (req, res) => {
+    res.send("API IS WORKING");
+})
 
 // controller();
 

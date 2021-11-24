@@ -13,7 +13,10 @@
     "express": "^4.17.1",
     "web3": "^1.6.1"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
   "scripts": {
-    "start": "node ./index.js"
+    "start": "nodemon ./index.js"
   }
 }

@@ -4,12 +4,12 @@ import axios from 'axios';
 import './Home.css';
 
 const App = () => {
-  const [name, setName] = React.useState("");
+  const [wallet, setWallet] = React.useState("");
   // const article = { title: 'Axios POST Request Example' };
-  const postName = async (e) => {
+  const postWallet = async (e) => {
     e.preventDefault()
     try {
-      await axios.post('http://localhost:3001/post_name', name)
+      await axios.post('/post_wallet', {walletAddress: wallet})
     } catch (error) {
       console.log(error)
     }
@@ -20,8 +20,8 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <form onSubmit={postName}>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        <form onSubmit={postWallet}>
+          <input type="text" value={wallet} onChange={(e) => setWallet(e.target.value)} />
           <button type="submit">Send Name</button>
         </form>
         <p>

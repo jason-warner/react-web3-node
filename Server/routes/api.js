@@ -1,13 +1,12 @@
 import express from 'express';
-const router = express.Router()
+import { controller } from '../controller.js'
+const router = express.Router();
+
 
 router
-    .get('/', (req, res) => {
-        res.send("API IS WORKING");
-    })
-    .post('/post_name', (req, res) => {
-        let name = req.body;
-        console.log(name);
+    .post('/post_wallet', (req, res) => {
+        const { walletAddress } = req.body;
+        return controller(walletAddress)
     })
 
 
