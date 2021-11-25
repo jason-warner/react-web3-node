@@ -1,8 +1,11 @@
-import { controller } from './controller.js';
+// import { controller } from './controller.js';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { api } from "./routes/api.js";
+import dotenv from 'dotenv';
+import { api } from "./routes/inbound/wallet.js";
+
+dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())

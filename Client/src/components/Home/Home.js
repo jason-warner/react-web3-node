@@ -5,11 +5,14 @@ import './Home.css';
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
+  const [balance, updateBalance] = React.useState(["0.00", "0.00"]);
   // const article = { title: 'Axios POST Request Example' };
   const postWallet = async (e) => {
     e.preventDefault()
     try {
-      await axios.post('/post_wallet', {walletAddress: wallet})
+      await axios
+        .post('/post_wallet', { walletAddress: wallet })
+        .then((result) => updateBalance(balance => balance, result.data));
     } catch (error) {
       console.log(error)
     }
@@ -25,16 +28,8 @@ const App = () => {
           <button type="submit">Send Name</button>
         </form>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Your ETH balance is {balance[0]} or ${balance[1]} USD.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
