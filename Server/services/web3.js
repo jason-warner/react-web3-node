@@ -11,8 +11,8 @@ const web3 = async (wallet) => {
     const weiBalance = await web3.eth.getBalance(wallet);
     const ethBalance = web3.utils.fromWei(weiBalance, "ether")
     const exchangeRate = await getExchangeRate();
-    const usdBalance = (parseFloat(ethBalance) * parseFloat(exchangeRate))
-    console.log(usdBalance);
+    console.log('exchange rate: ', exchangeRate);
+    const usdBalance = (parseFloat(ethBalance) * parseFloat(exchangeRate.ethusd)).toFixed(2)
     return [ethBalance, usdBalance];
 }
 
