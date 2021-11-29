@@ -4,7 +4,6 @@ dotenv.config();
 
 const exchangeEndpoint = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.ETHERSCAN_KEY}`
 const getExchangeRate = async () => {
-    console.log(exchangeEndpoint);
     return axios
         .get(exchangeEndpoint)
         .then((response) => response.data.result)

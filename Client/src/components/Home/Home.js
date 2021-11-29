@@ -12,12 +12,16 @@ const App = () => {
     try {
       await axios
         .post('/post_wallet', { walletAddress: wallet })
-        .then((result) => updateBalance(result.data));
+        .then((result) => {updateBalance(result.data); console.log(result.data[2])});
     } catch (error) {
       console.log(error)
     }
     console.log()
   }
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
 
   return (
     <div className="App">
@@ -27,12 +31,13 @@ const App = () => {
           <input 
             type="text" 
             value={wallet} 
-            onInput={(e) => setWallet(e.target.value)} 
+            onInput={(e) => setWallet(e.target.value)}
+            placeholder="enter your wallet address" 
           />
-          <button type="submit">Send Name</button>
+          <button type="submit">Get Balance</button>
         </form>
         <p>
-          Your ETH balance is {balance[0]} or {balance[1]} USD.
+          Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
         </p>
       </header>
     </div>
