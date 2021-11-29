@@ -6,9 +6,8 @@ import './Home.css';
 const App = () => {
   const [wallet, setWallet] = React.useState("");
   const [balance, updateBalance] = React.useState(['0', '0.00']);
-  // const article = { title: 'Axios POST Request Example' };
   const postWallet = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       await axios
         .post('/post_wallet', { walletAddress: wallet })
@@ -16,7 +15,6 @@ const App = () => {
     } catch (error) {
       console.log(error)
     }
-    console.log()
   }
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
