@@ -2,6 +2,7 @@ import Web3 from "web3";
 import dotenv from 'dotenv'
 import { getExchangeRate } from '../routes/outbound/ETH/getExchangeRate.js'
 import { getTransactionHistory } from '../routes/outbound/ETH/getTransactionHistory.js';
+import { getTokens } from '../routes/outbound/ETH/getTokenList.js'
 dotenv.config();
 
 const infuraUrl = `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`
@@ -13,7 +14,8 @@ const web3 = async (wallet) => {
     const exchangeRate = await getExchangeRate();
     const usdBalance = (parseFloat(ethBalance) * parseFloat(exchangeRate.ethusd));
     const walletHistory = await getTransactionHistory(wallet);
-    return [ethBalance, usdBalance, walletHistory];
+    const tokenList = await getTokens(wallet);
+    return [ethBalance, usdBalance, walletHistory, tokenList];
 }
 
 export { web3 }

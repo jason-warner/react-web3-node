@@ -1,22 +1,27 @@
 import React from 'react';
-import logo from '../../assets/logo.svg';
 import axios from 'axios';
 import './Home.css';
+import PersistentDrawerLeft from '../Drawer/Drawer';
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
   const [balance, updateBalance] = React.useState(['0', '0.00']);
   const [hasMetaMask, setMetaMask] = React.useState(null);
-  // const [accounts, setAccounts] = React.useState([]);
-  const postWallet = async (e) => {
-    e.preventDefault();
+  const [accounts, setAccounts] = React.useState([]);
+
+  const renderBalance = async (wallet) => {
     try {
       await axios
         .post('/post_wallet', { walletAddress: wallet })
-        .then((result) => { updateBalance(result.data); console.log(result.data[2]) });
+        .then((result) => { updateBalance(result.data); console.log(result.data[3]) });
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const postWallet = async (e) => {
+    e.preventDefault();
+    renderBalance();
   }
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -30,16 +35,17 @@ const App = () => {
   }, []);
 
   const connectMetaHandler = async () => {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    console.log(accounts);
-  }
+    const getAccounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    console.log(getAccounts[0]);
+    // setAccounts(getAccounts[0])
+    return renderBalance(getAccounts[0]);
 
+  }
 
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <form onSubmit={postWallet}>
           <input
             type="text"
@@ -54,12 +60,20 @@ const App = () => {
           Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
         </p>
         {hasMetaMask &&
-          <button onClick={() => connectMetaHandler()}>
-            Enable Ethereum
-          </button>
+          <>
+            <button onClick={() => connectMetaHandler()}>
+              Enable Ethereum
+            </button>
+          </>
         }
-
+        <ul>
+          {balance && console.log(balance)}
+          {balance[3] && balance[3].map((token) => (
+            <li>{token.symbol}</li>
+          ))}
+        </ul>
       </header>
+      <PersistentDrawerLeft />
     </div>
   );
 }
