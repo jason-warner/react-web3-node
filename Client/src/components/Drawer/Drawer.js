@@ -58,6 +58,7 @@ export default function PersistentDrawerLeft() {
         setOpen(false);
     };
 
+
     const listIcons = [
         <InfoIcon sx={{ color: '#FFF' }} />,
         <AnalyticsIcon sx={{ color: '#FFF' }} />,
@@ -67,18 +68,18 @@ export default function PersistentDrawerLeft() {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar position="fixed" open={open}>
-                <Toolbar sx={{ textAlign: 'center', backgroundColor: '#131417' }}>
+            <AppBar position="fixed" open={open} sx={{height: '64px'}}>
+                <Toolbar sx={{ textAlign: 'center', backgroundColor: '#131417', height: '64px' }}>
                     <IconButton
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
-                        sx={{ color: '#FFF', mr: 2, ...(open && { display: 'none' }) }}
+                        sx={{ color: '#FFF', mr: 2, ...(open && { display: 'none' }), "&:hover": { backgroundColor: "#61dafb", color: '#1e1f26' } }}
                     >
                         <MenuIcon />
                     </IconButton>
                     <div className="text-center w-full flex justify-center">
-                        <div className="inline-flex">
+                        <div className="inline-flex" style={{ marginRight: '45px' }}>
                             <h1 className="text-2xl justify-center"> TRAQ </h1>
                             <img src={logo} className="App-logo h-full self-center" alt="logo" />
                             <h1 className="text-2xl justify-center"> COIN </h1>
@@ -102,15 +103,19 @@ export default function PersistentDrawerLeft() {
                 open={open}
             >
                 <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose} sx={{ color: "#FFF" }}>
+                    <IconButton onClick={handleDrawerClose} sx={{ color: "#FFF", "&:hover": { backgroundColor: "#61dafb", color: '#1e1f26' } }}>
                         <ChevronLeftIcon />
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
                 <List>
                     {['About', 'Analytics', 'Charts', 'Reports'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
+                        <ListItem
+                            button
+                            key={text}
+                            sx={{ "&:hover": { backgroundColor: "#61dafb", color: '#1e1f26' } }}
+                        >
+                            <ListItemIcon >
                                 {listIcons[index]}
                             </ListItemIcon>
                             <ListItemText primary={text} />

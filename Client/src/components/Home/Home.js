@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import './Home.css';
 import PersistentDrawerLeft from '../Drawer/Drawer';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
@@ -44,37 +47,77 @@ const App = () => {
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <form onSubmit={postWallet}>
-          <input
-            type="text"
-            value={wallet}
-            onInput={(e) => setWallet(e.target.value)}
-            placeholder="enter your wallet address"
-          />
-          <button type="submit">Get Balance</button>
-
-        </form>
-        <p>
-          Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
-        </p>
-        {hasMetaMask &&
-          <>
-            <button onClick={() => connectMetaHandler()}>
-              Enable Ethereum
-            </button>
-          </>
-        }
-        <ul>
-          {balance && console.log(balance)}
-          {balance[3] && balance[3].map((token) => (
-            <li>{token.symbol}</li>
-          ))}
-        </ul>
-      </header>
+    <>
       <PersistentDrawerLeft />
-    </div>
+      <main
+        className="min-h-screen flex flex-col items-center justify-center text-white"
+        style={{
+          backgroundColor: '#2c303a',
+          fontSize: 'calc(10px + 1vmin)',
+          minHeight: 'calc(100vh - 64px)',
+          marginTop: '64px'
+        }}
+      >
+        <Box sx={{ flexGrow: 1, marginTop: '4rem' }}>
+          <Grid container rowSpacing={4} spacing={2}>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+              {hasMetaMask &&
+                <Button
+                  sx={{
+                    paddingTop: '10px',
+                    color: "#61dafb",
+                    backgroundColor: '#131417',
+                    "&:hover":
+                    {
+                      backgroundColor: "#61dafb",
+                      color: '#1e1f26'
+                    }
+                  }}
+                  variant="contained"
+                  onClick={() => connectMetaHandler()} className="flex flex-row justify-center text-center">
+                  Enable Ethereum
+                </Button>
+              }
+            </Grid>
+            <Grid item xs={12} sx={{ justifyContent: 'center' }}>
+              <form className="flex flex-row justify-center p-2" onSubmit={postWallet}>
+                <input
+                  type="text"
+                  value={wallet}
+                  onInput={(e) => setWallet(e.target.value)}
+                  placeholder="enter your wallet address"
+                />
+                <Button
+                  sx={{
+                    paddingTop: '10px',
+                    borderColor: "#61dafb",
+                    color: "#61dafb",
+                    "&:hover": {
+                      backgroundColor: "#61dafb",
+                      color: '#1e1f26'
+                    }
+                  }}
+                  className="p-2"
+                  type="submit"
+                  variant="outlined"
+                >Get Balance</Button>
+              </form>
+              <p className="flex flex-row justify-center p-2">
+                Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
+              </p>
+            </Grid>
+            <Grid item xs={12}>
+              <ul>
+                {balance && console.log(balance)}
+                {balance[3] && balance[3].map((token) => (
+                  <li className="text-center">{token.symbol}</li>
+                ))}
+              </ul>
+            </Grid>
+          </Grid>
+        </Box>
+      </main>
+    </>
   );
 }
 

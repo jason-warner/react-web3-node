@@ -1,7 +1,4 @@
-.App {
-  text-align: center;
-}
-
+@use "@material/button/styles";
 
 .App-header {
   background-color: #282c34;
@@ -12,8 +9,4 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
