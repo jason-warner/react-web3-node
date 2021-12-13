@@ -5,6 +5,7 @@ import PersistentDrawerLeft from '../Drawer/Drawer';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
@@ -82,15 +83,23 @@ const App = () => {
             <Grid item xs={12} sx={{ justifyContent: 'center' }}>
               <form className="flex flex-row justify-center p-2" onSubmit={postWallet}>
                 <input
+                  style={{
+                    borderRadius: '4px 0 0 4px',
+                    backgroundColor: '#131417',
+                    border: '1px solid #61dafb',
+                    color: '#61dafb',
+                    fontSize: '0.875rem'
+                  }}
                   type="text"
                   value={wallet}
                   onInput={(e) => setWallet(e.target.value)}
-                  placeholder="enter your wallet address"
+                  placeholder="Wallet Address"
                 />
                 <Button
                   sx={{
                     paddingTop: '10px',
                     borderColor: "#61dafb",
+                    borderRadius: '0 4px 4px 0',
                     color: "#61dafb",
                     "&:hover": {
                       backgroundColor: "#61dafb",
