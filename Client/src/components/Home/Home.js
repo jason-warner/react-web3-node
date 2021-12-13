@@ -5,13 +5,12 @@ import PersistentDrawerLeft from '../Drawer/Drawer';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
   const [balance, updateBalance] = React.useState(['0', '0.00']);
   const [hasMetaMask, setMetaMask] = React.useState(null);
-  const [accounts, setAccounts] = React.useState([]);
 
   const renderBalance = async (wallet) => {
     try {
@@ -23,9 +22,11 @@ const App = () => {
     }
   }
 
+  React.useEffect(() => console.log(wallet), [wallet])
+
   const postWallet = async (e) => {
     e.preventDefault();
-    renderBalance();
+    return renderBalance(wallet);
   }
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -43,8 +44,8 @@ const App = () => {
     console.log(getAccounts[0]);
     // setAccounts(getAccounts[0])
     return renderBalance(getAccounts[0]);
-
   }
+
 
 
   return (
@@ -81,7 +82,7 @@ const App = () => {
               }
             </Grid>
             <Grid item xs={12} sx={{ justifyContent: 'center' }}>
-              <form className="flex flex-row justify-center p-2" onSubmit={postWallet}>
+              <form className="flex flex-row justify-center p-2">
                 <input
                   style={{
                     borderRadius: '4px 0 0 4px',
@@ -93,7 +94,7 @@ const App = () => {
                   type="text"
                   value={wallet}
                   onInput={(e) => setWallet(e.target.value)}
-                  placeholder="Wallet Address"
+                  placeholder=" Wallet Address"
                 />
                 <Button
                   sx={{
@@ -109,6 +110,7 @@ const App = () => {
                   className="p-2"
                   type="submit"
                   variant="outlined"
+                  onClick={(e) => postWallet(e)}
                 >Get Balance</Button>
               </form>
               <p className="flex flex-row justify-center p-2">
