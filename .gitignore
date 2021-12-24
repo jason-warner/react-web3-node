@@ -5,6 +5,7 @@
 /Server/node_modules
 /.pnp
 .pnp.js
+scatch.js
 
 # testing
 /coverage
