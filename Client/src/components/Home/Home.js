@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { BasicTable } from '../Table/BasicTable.js'
-// import TextField from '@mui/material/TextField';
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
@@ -29,10 +28,6 @@ const App = () => {
     e.preventDefault();
     return renderBalance(wallet);
   }
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   React.useEffect(() => {
     typeof window.ethereum !== 'undefined'
