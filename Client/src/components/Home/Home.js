@@ -10,14 +10,14 @@ import { BasicTable } from '../Table/BasicTable.js'
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
-  const [balance, updateBalance] = React.useState(['0', '0.00']);
+  const [balances, updateBalances] = React.useState([]);
   const [hasMetaMask, setMetaMask] = React.useState(null);
 
   const renderBalance = async (wallet) => {
     try {
       await axios
         .post('/post_wallet', { walletAddress: wallet })
-        .then((result) => { updateBalance(result.data); console.log("result: ", result.data) });
+        .then((result) => { updateBalances(result.data); console.log("result: ", result.data) });
     } catch (error) {
       console.log(error)
     }
@@ -47,7 +47,9 @@ const App = () => {
     return renderBalance(getAccounts[0]);
   }
 
-  const rows = balance[3] && balance[3].map((token) => { return { desc: token.name, price: token.amount } });
+  // const rows = balance[3] && balance[3].map((token) => { return { desc: token.name, price: token.amount } });
+  const rows = balances[0];
+  // balances && rows.unshift([balances[0], balances[1]]);
 
   return (
     <>
@@ -114,16 +116,16 @@ const App = () => {
                   onClick={(e) => postWallet(e)}
                 >Get Balance</Button>
               </form>
-              <p className="flex flex-row justify-center p-2" style={{paddingTop: '32px'}}>
-                Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
-              </p>
+              {/* <p className="flex flex-row justify-center p-2" style={{ paddingTop: '32px' }}>
+                Your ETH balance is {balances[0]} or {formatter.format(balances[1])} USD.
+              </p> */}
             </Grid>
             {/* <Grid item xs={12}>
               <p className="flex flex-row justify-center p-2">
                 Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
               </p>
             </Grid> */}
-            {balance[3] &&
+            {balances[0] &&
               <Grid item xs={12} >
                 <BasicTable rows={rows} />
               </Grid>

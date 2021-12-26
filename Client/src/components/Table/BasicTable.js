@@ -24,8 +24,23 @@ const containerStyles = {
   background: '#1e1f26',
   margin: '0 auto'
 }
+const footerStyles = {
+  fontSize: 'calc(8px + 1vmin)',
+  background: '#61dafb',
+  color: '#131417'
+}
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
 
 export const BasicTable = ({ rows }) => {
+  const totalEth = parseFloat(rows[0].eth);
+  const totalUsd = parseFloat(rows[0].usd);
+  console.log(rows);
+  rows = rows.slice(1);
+  console.log(rows)
   return (
     <TableContainer
       style={containerStyles}
@@ -40,12 +55,17 @@ export const BasicTable = ({ rows }) => {
             <TableCell
               align="center"
               style={headerStyles}
-            >Token
+            >Holdings
             </TableCell>
             <TableCell
               align="center"
               style={headerStyles}
-            >Price
+            >ETH
+            </TableCell>
+            <TableCell
+              align="center"
+              style={headerStyles}
+            >USD
             </TableCell>
           </TableRow>
         </TableHead>
@@ -61,17 +81,31 @@ export const BasicTable = ({ rows }) => {
               <TableCell
                 align="center"
                 style={cellStyles}
-              >{row.price}
+              >{row.price.eth}
+              </TableCell>
+              <TableCell
+                align="center"
+                style={cellStyles}
+              >{row.price.usd}
               </TableCell>
             </TableRow>
           ))}
-
           <TableRow>
             <TableCell
-              colSpan={2}
               align='center'
-              style={cellStyles}
-            >Grand Total: $543453
+              style={footerStyles}
+              sx={{ borderRight: '1px solid #FFF' }}
+            >Grand Total:
+            </TableCell>
+            <TableCell
+              align='center'
+              style={footerStyles}
+            >{totalEth}
+            </TableCell>
+            <TableCell
+              align='center'
+              style={footerStyles}
+            >{formatter.format(totalUsd)}
             </TableCell>
           </TableRow>
         </TableBody>

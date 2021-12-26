@@ -1,5 +1,5 @@
 import express from 'express';
-import { web3 } from '../../services/web3.js'
+import { walletHoldings } from '../../services/web3.js'
 const router = express.Router();
 
 
@@ -8,9 +8,9 @@ router
     .post('/post_wallet', async (req, res) => {
         const { walletAddress } = req.body;
         console.log(walletAddress);
-        const balance = await web3(walletAddress);
-        return balance
-            ? res.status(200).send(balance)
+        const holdings = await walletHoldings(walletAddress);
+        return holdings
+            ? res.status(200).send(holdings)
             : res.status(500)
     });
 
