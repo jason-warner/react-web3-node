@@ -1,10 +1,11 @@
-import React from 'react';
+import React from 'react'
 import axios from 'axios';
 import './Home.css';
 import PersistentDrawerLeft from '../Drawer/Drawer';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import { BasicTable } from '../Table/BasicTable.js'
 // import TextField from '@mui/material/TextField';
 
 const App = () => {
@@ -16,13 +17,13 @@ const App = () => {
     try {
       await axios
         .post('/post_wallet', { walletAddress: wallet })
-        .then((result) => { updateBalance(result.data); console.log(result.data[3]) });
+        .then((result) => { updateBalance(result.data); console.log("result: ", result.data) });
     } catch (error) {
       console.log(error)
     }
   }
 
-  React.useEffect(() => console.log(wallet), [wallet])
+  React.useEffect(() => console.log("wallet: ", wallet), [wallet])
 
   const postWallet = async (e) => {
     e.preventDefault();
@@ -46,7 +47,7 @@ const App = () => {
     return renderBalance(getAccounts[0]);
   }
 
-
+  const rows = balance[3] && balance[3].map((token) => { return { desc: token.name, price: token.amount } });
 
   return (
     <>
@@ -113,18 +114,21 @@ const App = () => {
                   onClick={(e) => postWallet(e)}
                 >Get Balance</Button>
               </form>
-              <p className="flex flex-row justify-center p-2">
+              <p className="flex flex-row justify-center p-2" style={{paddingTop: '32px'}}>
                 Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
               </p>
             </Grid>
-            <Grid item xs={12}>
-              <ul>
-                {balance && console.log(balance)}
-                {balance[3] && balance[3].map((token) => (
-                  <li className="text-center">{token.symbol}</li>
-                ))}
-              </ul>
-            </Grid>
+            {/* <Grid item xs={12}>
+              <p className="flex flex-row justify-center p-2">
+                Your ETH balance is {balance[0]} or {formatter.format(balance[1])} USD.
+              </p>
+            </Grid> */}
+            {balance[3] &&
+              <Grid item xs={12} >
+                <BasicTable rows={rows} />
+              </Grid>
+            }
+
           </Grid>
         </Box>
       </main>
