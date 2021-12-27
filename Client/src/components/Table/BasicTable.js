@@ -38,9 +38,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 export const BasicTable = ({ rows }) => {
   const totalEth = parseFloat(rows[0].eth);
   const totalUsd = parseFloat(rows[0].usd);
-  console.log(rows);
   rows = rows.slice(1);
-  console.log(rows)
   return (
     <TableContainer
       style={containerStyles}
@@ -60,12 +58,12 @@ export const BasicTable = ({ rows }) => {
             <TableCell
               align="center"
               style={headerStyles}
-            >ETH
+            >Quantity
             </TableCell>
             <TableCell
               align="center"
               style={headerStyles}
-            >USD
+            >Value
             </TableCell>
           </TableRow>
         </TableHead>

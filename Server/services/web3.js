@@ -2,7 +2,6 @@ import Web3 from "web3";
 import dotenv from 'dotenv'
 import { getExchangeRate } from '../routes/outbound/ETH/getExchangeRate.js'
 import { getTransactionHistory } from '../routes/outbound/ETH/getTransactionHistory.js';
-import { getTokens } from '../routes/outbound/ETH/getTokenList.js'
 import { getBalances } from '../routes/outbound/ETH/getBalances.js'
 dotenv.config();
 
@@ -22,10 +21,10 @@ const tokenConstructor = (balances, exchangeRate) => {
         const desc = `${token.tokenInfo.name} (${token.tokenInfo.symbol})`;
         const price = {
             eth: eth,
-            usd: formatter.format(usd)
+            usd: token.tokenInfo.price === false ? '?' : formatter.format(usd)
         };
         totalEth += parseFloat(eth);
-        totalUsd += parseFloat(usd)
+        token.tokenInfo.price !== false ? totalUsd += parseFloat(usd) : undefined;
         return { desc, price }
     });
     const weiBalance = balances.ETH.rawBalance;
@@ -39,7 +38,7 @@ const tokenConstructor = (balances, exchangeRate) => {
         desc: 'Ethereum (ETH)',
         price: {
             eth: ethBalance,
-            usd: usdBalance
+            usd: formatter.format(usdBalance)
         }
     }
     objArr.unshift(totals, ethBal);
@@ -52,16 +51,17 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 const walletHoldings = async (wallet) => {
+    const balances = await getBalances(wallet);
+    const exchangeRate = await getExchangeRate();
+    const walletHistory = await getTransactionHistory(wallet);
+    const holdings = tokenConstructor(balances, exchangeRate)
+    return [holdings, walletHistory, balances];
+}
+
+export { walletHoldings }
+    // import { getTokens } from '../routes/outbound/ETH/getTokenList.js'
     // const weiBalance = balances.ETH.rawBalance
     // const weiBalance = await web3.eth.getBalance(wallet);
     // const ethBalance = web3.utils.fromWei(weiBalance, "ether")
     // const usdBalance = getUSD(ethBalance, exchangeRate.ethusd)
     // const tokenList = await getTokens(wallet);
-    const balances = await getBalances(wallet);
-    const exchangeRate = await getExchangeRate();
-    const walletHistory = await getTransactionHistory(wallet);
-    const holdings = tokenConstructor(balances, exchangeRate)
-    return [holdings, walletHistory];
-}
-
-export { walletHoldings }
