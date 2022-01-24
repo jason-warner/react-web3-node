@@ -1,8 +1,6 @@
 import express from 'express';
-import { walletHoldings } from '../../services/web3.js'
+import { walletHoldings } from '../../Controllers/web3.js'
 const router = express.Router();
-
-
 
 router
     .post('/post_wallet', async (req, res) => {

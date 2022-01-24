@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { BasicTable } from '../Table/BasicTable.js'
+import ReactVirtualizedTable from '../Table/VirtualTable.js'
 
 const App = () => {
   const [wallet, setWallet] = React.useState("");
@@ -54,7 +55,7 @@ const App = () => {
           marginTop: '64px'
         }}
       >
-        <Box sx={{ flexGrow: 1, marginTop: '4rem' }}>
+        <Box sx={{ flexGrow: 1, marginTop: '4rem', marginBottom: '32px' }}>
           <Grid container rowSpacing={4} spacing={2}>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               {hasMetaMask &&
@@ -70,7 +71,8 @@ const App = () => {
                     }
                   }}
                   variant="contained"
-                  onClick={() => connectMetaHandler()} className="flex flex-row justify-center text-center">
+                  onClick={() => connectMetaHandler()}
+                  className="flex flex-row justify-center text-center">
                   Enable Ethereum
                 </Button>
               }
@@ -113,6 +115,9 @@ const App = () => {
                 <BasicTable rows={rows} />
               </Grid>
             }
+            <Grid item xs={12} >
+              <ReactVirtualizedTable />
+            </Grid>
           </Grid>
         </Box>
       </main>
