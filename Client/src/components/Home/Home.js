@@ -19,7 +19,7 @@ const App = () => {
         .post('/post_wallet', { walletAddress: wallet })
         .then((result) => updateBalances(result.data));
     } catch (error) {
-      console.log(error);
+      console.log('*** render balance ***', error);
     }
   }
 
@@ -116,7 +116,7 @@ const App = () => {
               </Grid>
             }
             <Grid item xs={12} >
-              <ReactVirtualizedTable />
+              <ReactVirtualizedTable history={balances[2]} />
             </Grid>
           </Grid>
         </Box>

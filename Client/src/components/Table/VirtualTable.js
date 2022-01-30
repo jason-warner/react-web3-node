@@ -14,8 +14,6 @@ const styles = (theme) => ({
         boxSizing: 'border-box',
     },
     table: {
-        // temporary right-to-left patch, waiting for
-        // https://github.com/bvaughn/react-virtualized/issues/454
         '& .ReactVirtualized__Table__headerRow': {
             ...(theme.direction === 'rtl' && {
                 paddingLeft: '0 !important',
@@ -82,7 +80,6 @@ class MuiVirtualizedTable extends React.PureComponent {
         const { headerHeight, columns, classes } = this.props;
 
         const headerWidth = width / columns.length
-        console.log(`col len: ${columns.length} \n width: ${width}`)
 
         return (
             <TableCell
@@ -160,32 +157,44 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 
 // ---
 
-const sample = [
-    ['Frozen yoghurt', 159, 6.0, 24, 4.0],
-    ['Ice cream sandwich', 237, 9.0, 37, 4.3],
-    ['Eclair', 262, 16.0, 24, 6.0],
-    ['Cupcake', 305, 3.7, 67, 4.3],
-    ['Gingerbread', 356, 16.0, 49, 3.9],
-];
 
-function createData(id, dessert, calories, fat, carbs, protein) {
-    return { id, dessert, calories, fat, carbs, protein };
-}
 
-const rows = [];
+export default function ReactVirtualizedTable(history) {
 
-for (let i = 0; i < 200; i += 1) {
-    const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-    rows.push(createData(i, ...randomSelection));
-}
-const containerStyles = {
-    height: 400,
-    width: '100%',
-    marginTop: '32px',
-    background: '#1e1f26'
-}
+    // console.log('history: ', history);
 
-export default function ReactVirtualizedTable() {
+    // const sample = [
+    //     ['Frozen yoghurt', 159, 6.0, 24, 4.0],
+    //     ['Ice cream sandwich', 237, 9.0, 37, 4.3],
+    //     ['Eclair', 262, 16.0, 24, 6.0],
+    //     ['Cupcake', 305, 3.7, 67, 4.3],
+    //     ['Gingerbread', 356, 16.0, 49, 3.9],
+    // ];
+
+    const rows = [];
+
+    const createData = (id, value, from, to, gas, hash) => {
+        return { id, value, from, to, gas, hash };
+    }
+
+    // for (let i = 0; i < sample.length; i++) {
+    //     const randomSelection = sample[i];
+    //     rows.push(createData(i, ...randomSelection));
+    // }
+    if (history.history) {
+        for (let i = 0; i < history.history.length; i++) {
+            const row = [history.history[i].value, history.history[i].from, history.history[i].to, history.history[i].gas, history.history[i].hash ]
+            rows.push(createData(i, ...row));
+        }
+    }
+    const containerStyles = {
+        height: 400,
+        width: '100%',
+        marginTop: '32px',
+        background: '#1e1f26'
+    }
+
+
     return (
         <Paper style={containerStyles}>
             <VirtualizedTable
@@ -193,28 +202,24 @@ export default function ReactVirtualizedTable() {
                 rowGetter={({ index }) => rows[index]}
                 columns={[
                     {
-                        label: 'Dessert',
-                        dataKey: 'dessert',
+                        label: 'Value',
+                        dataKey: 'value',
                     },
                     {
-                        label: 'Calories\u00A0(g)',
-                        dataKey: 'calories',
-                        numeric: true,
+                        label: 'From',
+                        dataKey: 'from',
                     },
                     {
-                        label: 'Fat\u00A0(g)',
-                        dataKey: 'fat',
-                        numeric: true,
+                        label: 'To',
+                        dataKey: 'to',
                     },
                     {
-                        label: 'Carbs\u00A0(g)',
-                        dataKey: 'carbs',
-                        numeric: true,
+                        label: 'Gas',
+                        dataKey: 'gas',
                     },
                     {
-                        label: 'Protein\u00A0(g)',
-                        dataKey: 'protein',
-                        numeric: true,
+                        label: 'Hash',
+                        dataKey: 'hash',
                     },
                 ]}
             />

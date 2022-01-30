@@ -23,9 +23,3 @@ const walletHoldings = async (wallet) => {
 }
 
 export { walletHoldings }
-    // import { getTokens } from '../routes/outbound/ETH/getTokenList.js'
-    // const weiBalance = balances.ETH.rawBalance
-    // const weiBalance = await web3.eth.getBalance(wallet);
-    // const ethBalance = web3.utils.fromWei(weiBalance, "ether")
-    // const usdBalance = getUSD(ethBalance, exchangeRate.ethusd)
-    // const tokenList = await getTokens(wallet);
