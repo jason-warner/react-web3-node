@@ -78,7 +78,6 @@ class MuiVirtualizedTable extends React.PureComponent {
 
     headerRenderer = ({ label, columnIndex, width }) => {
         const { headerHeight, columns, classes } = this.props;
-
         const headerWidth = width / columns.length
 
         return (
@@ -86,7 +85,12 @@ class MuiVirtualizedTable extends React.PureComponent {
                 component="div"
                 className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
                 variant="head"
-                style={{ height: headerHeight, color: '#FFF', width: `${headerWidth}px`, justifyContent: 'center' }}
+                style={{
+                    height: headerHeight,
+                    color: '#FFF',
+                    width: `${headerWidth}px`,
+                    justifyContent: 'center'
+                }}
                 align={columns[columnIndex].numeric || false ? 'right' : 'left'}
             >
                 <span>{label}</span>
@@ -155,45 +159,27 @@ MuiVirtualizedTable.propTypes = {
 const defaultTheme = createTheme();
 const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTable);
 
-// ---
-
-
+// ---------------------------------------------------------------------------------
 
 export default function ReactVirtualizedTable(history) {
 
-    // console.log('history: ', history);
-
-    // const sample = [
-    //     ['Frozen yoghurt', 159, 6.0, 24, 4.0],
-    //     ['Ice cream sandwich', 237, 9.0, 37, 4.3],
-    //     ['Eclair', 262, 16.0, 24, 6.0],
-    //     ['Cupcake', 305, 3.7, 67, 4.3],
-    //     ['Gingerbread', 356, 16.0, 49, 3.9],
-    // ];
-
     const rows = [];
-
     const createData = (id, value, from, to, gas, hash) => {
         return { id, value, from, to, gas, hash };
     }
-
-    // for (let i = 0; i < sample.length; i++) {
-    //     const randomSelection = sample[i];
-    //     rows.push(createData(i, ...randomSelection));
-    // }
     if (history.history) {
         for (let i = 0; i < history.history.length; i++) {
-            const row = [history.history[i].value, history.history[i].from, history.history[i].to, history.history[i].gas, history.history[i].hash ]
+            const row = history.history[i];
             rows.push(createData(i, ...row));
         }
     }
+
     const containerStyles = {
         height: 400,
         width: '100%',
         marginTop: '32px',
         background: '#1e1f26'
     }
-
 
     return (
         <Paper style={containerStyles}>

@@ -115,9 +115,12 @@ const App = () => {
                 <BasicTable rows={rows} />
               </Grid>
             }
-            <Grid item xs={12} >
-              <ReactVirtualizedTable history={balances[2]} />
-            </Grid>
+            {balances[2] &&
+              <Grid item xs={12} >
+                <ReactVirtualizedTable history={balances[2]} />
+              </Grid>
+            }
+
           </Grid>
         </Box>
       </main>
