@@ -11,7 +11,7 @@ const styles = (theme) => ({
     flexContainer: {
         display: 'flex',
         alignItems: 'center',
-        boxSizing: 'border-box',
+        boxSizing: 'border-box'
     },
     table: {
         '& .ReactVirtualized__Table__headerRow': {
@@ -49,7 +49,6 @@ class MuiVirtualizedTable extends React.PureComponent {
 
     getRowClassName = ({ index }) => {
         const { classes, onRowClick } = this.props;
-
         return clsx(classes.tableRow, classes.flexContainer, {
             [classes.tableRowHover]: index !== -1 && onRowClick != null,
         });
@@ -64,7 +63,7 @@ class MuiVirtualizedTable extends React.PureComponent {
                     [classes.noClick]: onRowClick == null,
                 })}
                 variant="body"
-                style={{ height: rowHeight, color: '#FFF', justifyContent: 'center' }}
+                style={{ height: rowHeight, color: '#FFF', justifyContent: 'center', width: 'fit-content' }}
                 align={
                     (columnIndex != null && columns[columnIndex].numeric) || false
                         ? 'right'
@@ -109,6 +108,8 @@ class MuiVirtualizedTable extends React.PureComponent {
                         rowHeight={rowHeight}
                         gridStyle={{
                             direction: 'inherit',
+                            paddingRight: '5px',
+                            paddingLeft: '5px'
                         }}
                         headerHeight={headerHeight}
                         className={classes.table}
@@ -164,8 +165,8 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 export default function ReactVirtualizedTable(history) {
 
     const rows = [];
-    const createData = (id, value, from, to, gas, hash) => {
-        return { id, value, from, to, gas, hash };
+    const createData = (id, quantity, value, from, to, gas, hash) => {
+        return { id, quantity, value, from, to, gas, hash };
     }
     if (history.history) {
         for (let i = 0; i < history.history.length; i++) {
@@ -187,6 +188,10 @@ export default function ReactVirtualizedTable(history) {
                 rowCount={rows.length}
                 rowGetter={({ index }) => rows[index]}
                 columns={[
+                    {
+                        label: 'Quantity',
+                        dataKey: 'quantity',
+                    },
                     {
                         label: 'Value',
                         dataKey: 'value',

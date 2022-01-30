@@ -16,20 +16,22 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 
-export const historyModifier = (history, exchangeRate) => {
+export const historyConstructor = (history, exchangeRate) => {
     const modifiedHistory = [];
     for (let i = 0; i < history.length; i++) {
         const historyObj = history[i];
-        const value = historyObj.value;
-        console.log('value: ', value, i)
-        const modifiedValue = web3.utils.fromWei(value, "ether");
-        const gas = historyObj.gas;
-        const modifiedGas = web3.utils.fromWei(gas, "ether");
+        const value = web3.utils.fromWei(historyObj.value, "ether");
+        const usdValue = getUSD(value, exchangeRate.ethusd)
+        const modifiedValue = formatter.format(usdValue)
+        const gas = web3.utils.fromWei(historyObj.gas, "ether");
+        const usdGas = getUSD(gas, exchangeRate.ethusd);
+        const modifiedGas = formatter.format(usdGas);
         const row = [
+            value,
             modifiedValue,
             historyObj.from,
             historyObj.to,
-            modifiedGas,
+            gas,
             historyObj.hash
         ];
         modifiedHistory.push(row);
