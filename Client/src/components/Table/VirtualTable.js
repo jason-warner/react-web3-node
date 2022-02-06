@@ -55,7 +55,11 @@ class MuiVirtualizedTable extends React.PureComponent {
     };
 
     cellRenderer = ({ cellData, columnIndex }) => {
-        const { columns, classes, rowHeight, onRowClick } = this.props;
+        const { columns, classes, rowHeight, onRowClick, address } = this.props;
+        console.log('cell data: ', cellData, ' c i : ', columnIndex)
+        columnIndex === 2 && cellData === address
+            ? console.log('add', cellData)
+            : console.log('subtract ', cellData);
         return (
             <TableCell
                 component="div"
@@ -63,7 +67,12 @@ class MuiVirtualizedTable extends React.PureComponent {
                     [classes.noClick]: onRowClick == null,
                 })}
                 variant="body"
-                style={{ height: rowHeight, color: '#FFF', justifyContent: 'center', width: 'fit-content' }}
+                style={{
+                    height: rowHeight,
+                    color: '#FFF',
+                    justifyContent: 'center',
+                    width: 'fit-content',
+                }}
                 align={
                     (columnIndex != null && columns[columnIndex].numeric) || false
                         ? 'right'
@@ -162,7 +171,7 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 
 // ---------------------------------------------------------------------------------
 
-export default function ReactVirtualizedTable(history) {
+export default function ReactVirtualizedTable(history, address) {
 
     const rows = [];
     const createData = (id, quantity, value, from, to, gas, hash) => {
@@ -185,6 +194,7 @@ export default function ReactVirtualizedTable(history) {
     return (
         <Paper style={containerStyles}>
             <VirtualizedTable
+                address={address}
                 rowCount={rows.length}
                 rowGetter={({ index }) => rows[index]}
                 columns={[
